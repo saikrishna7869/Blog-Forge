@@ -21,23 +21,9 @@ function isLogged(req, res, next) {
 }
 
 
-cloudinary.config({ 
-  cloud_name: 'ddyvolryf', 
-  api_key: '447897213392583', 
-  api_secret: 'eV5WADoX7mbTeVzzc_NBlMyHisI' 
-});
 
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'profile_images', // Folder name in Cloudinary
-    allowed_formats: ['jpeg', 'png', 'jpg'], // Allowed file formats
-    public_id: (req, file) => Date.now() + '-' + file.originalname // Custom file name
-  }
-});
-
-const upload = multer({ storage });
+const upload = require("../cloudinary/cloud.js");
 
 router.get("/home", isLogged, async(req, res) => {
   const blogs = await Blog.find().populate('userid');
