@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile Edit with Image Crop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+ 
+    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+  <style>
+    /* Styles for cropping area */
+body{
+    background: rgb(193, 206, 200);
+    background: linear-gradient(193deg, rgb(102, 189, 150) 2%, rgb(187, 220, 222) 18%);
+}
+    /* Fix for input and textarea background colors */
+input[type="text"],
+input[type="file"],
+select,
+textarea {
+  background-color: #e9e1b9; /* White background */
+  color: #000000; /* Dark text color */
+  border: 1px solid #000000; /* Light gray border */
+  padding: 0.5rem; /* Padding for better spacing */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* Updated styles for the profile dropdown */
+
+/* Focused state for inputs and textareas */
+input[type="text"]:focus,
+input[type="file"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Subtle glow on focus */
+}
+
+.crop-container {
+    text-align: center;
+    margin-top: 1rem;
+}
+#crop-image {
+    max-width: 100%;
+    max-height: 300px;
+}
+figure img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+   
+.notification-container {
+  position: relative;
+}
+
+.badge {
+  position: relative;
+  /* background-color: var(--primary, #007bff); */
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: none;
+}
+label{
+    color: #000000;
+}
+
+
+
+   
+    
+  </style>
+</head>
+<body>
+    <%- include("../views/includes/header.ejs") %>
+
+    <main class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <h2 class="text-center mb-4">Edit Profile</h2>
+  
+              <form action="/profile/edit" method="POST" enctype="multipart/form-data" novalidate>
+                <!-- Profile Photo -->
+                <div class="mb-4 text-center">
+                  <label for="profile-photo" class="form-label">Profile Photo</label>
+                  <figure>
+                    <img src="<%=user.image.url%>" alt="Profile Photo" id="current-photo">
+                    <figcaption id="imagetext" class="mt-2">Current Profile Photo</figcaption>
+                  </figure>
+                  <input type="file" id="profile-photo" name="profile-photo" class="form-control mt-3" accept="image/*" onchange="handleImageUpload(event)" required>
+                </div>
+  
+                <!-- Cropping Area -->
+                <div id="crop-area" class="text-center mb-4" style="display: none;">
+                  <img id="crop-image" alt="Crop Image">
+                  <button type="button" class="btn btn-success mt-3" onclick="cropImage()">Crop & Save</button>
+                </div>
+  
+                <!-- Username -->
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" id="username" name="username" class="form-control" value="<%=user.username%>" required>
+                </div>
+  
+                <!-- Gender -->
+                <div class="mb-3">
+                  <label for="gender" class="form-label">Gender</label>
+                  <select id="gender" name="gender" class="form-select" required>
+                    <option value="">Select your gender</option>
+                    <option value="male" <%=user.gender == "male" ? "selected" : ""%>>Male</option>
+                    <option value="female" <%=user.gender == "female" ? "selected" : ""%>>Female</option>
+                  </select>
+                </div>
+  
+                <!-- Bio -->
+                <div class="mb-4">
+                  <label for="bio" class="form-label">Bio</label>
+                  <textarea id="bio" name="bio" class="form-control" rows="4" ><%=user.bio%></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="twitter" class="form-label">twitter</label>
+                  <input type="text" id="twitter" name="twitter" class="form-control" value="<%=user.twitter%>" >
+                </div>
+
+                <div class="mb-3">
+                  <label for="linkden" class="form-label">Linkden</label>
+                  <input type="text" id="linkden" name="linkden" class="form-control" value="<%=user.linkden%>" >
+                </div>
+
+                <div class="mb-3">
+                  <label for="facebook" class="form-label">Facebook</label>
+                  <input type="text" id="facebook" name="facebook" class="form-control" value="<%=user.facebook%>" >
+                </div>
+  
+                <!-- Save Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary w-50">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  <%- include("../views/includes/footer.ejs") %>
+
+  <!-- Include Cropper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+  <script>
+    let cropper;
+
+    // Handle image upload and show the cropping area
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        const imagetext=document.getElementById("imagetext");
+        reader.onload = function(e) {
+          const cropImage = document.getElementById('crop-image');
+          cropImage.src = e.target.result;
+          imagetext.innerHTML="Updated Profile Image";
+          document.getElementById('crop-area').style.display = 'block';
+
+          // Initialize Cropper.js
+          if (cropper) {
+            cropper.destroy();
+          }
+          cropper = new Cropper(cropImage, {
+            aspectRatio: 1, // Set 1:1 aspect ratio
+            viewMode: 1,
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Crop the image and update the profile photo preview
+    function cropImage() {
+      const canvas = cropper.getCroppedCanvas({
+        width: 150, // Desired output size
+        height: 150,
+      });
+      const croppedImage = canvas.toDataURL('image/png'); // Get cropped image as a Data URL
+      document.getElementById('current-photo').src = croppedImage; // Update profile photo
+      document.getElementById('crop-area').style.display = 'none'; // Hide crop area
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', () => {
+  const badge = document.getElementById('notification-badge');
+  const dropdown = document.getElementById('notification-dropdown');
+  const dot = badge.querySelector('.dot');
+  
+
+  // Click event for the notification badge
+  badge.addEventListener('click', () => {
+    // Toggle dropdown visibility
+   if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+      dropdown.style.display = 'block';
+    } else {
+      dropdown.style.display = 'none';
+    }
+    fetch("/updateseen",{
+        method:'post',
+       
+    });
+   
+    dot.style.display = 'none';
+  });
+
+  // Close dropdown when clicking outside of it
+  document.addEventListener('click', (event) => {
+    if (!badge.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+
+
+<% if(!blogs){%>
+    <div>
+        <h1>No Blogs</h1>>
+    </div>
+<%}else{%>
+<div class="main tab-content">
+   <% if(tab==="home"){ %>
+    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel">
+       <!-- <div style="width: 100%;">
+        <p><%=count%></p>
+       </div> -->
+        
+       <% for(let i=0;i< blogs.length;i++){ %>
+        <div class="card card1">
+         <!-- Main Image -->
+         <img src=<%=blogs[i].image %> class="card-img-top" alt="Main Image">
+         
+         <!-- Author Image -->
+         <div class="author-image-container">
+             <img src=<%=blogs[i].userid.image.url %> class="author-img" alt="Author Image">
+         </div>
+         
+         <!-- Card Body -->
+         <div class="card-body">
+             <p class="authorname"><%=blogs[i].userid.username%> &nbsp; &nbsp;  &nbsp; &nbsp; <%=blogs[i].created_at.toString().substring(4,15)%> </p>
+             <h5 class="card-title tit"><%=blogs[i].title%></h5>
+             <p class="card-text cont"><%=blogs[i].content.length>50?blogs[i].content.substring(0,49)+'....':blogs[i].content%></p>
+             <a href="/<%=blogs[i]._id%>/read" class="btn btn-primary btn-read-more">Read More</a>
+         </div>
+        
+     </div>
+      <%}%>
+    </div>
+    <%}else if(tab==="Latest"){ %>
+
+    <div class="tab-pane fade show active" id="v-pills-Latest" role="tabpanel">
+        <!-- <div style="width: 100%;">
+            <p><%=count%></p>
+        </div> -->
+            
+        <% for(let i=0;i< blogs.length;i++){ %>
+            <div class="card card1">
+             <!-- Main Image -->
+             <img src=<%=blogs[i].image %> class="card-img-top" alt="Main Image">
+             
+             <!-- Author Image -->
+             <div class="author-image-container">
+                 <img src=<%=blogs[i].userid.image.url %> class="author-img" alt="Author Image">
+             </div>
+             
+             <!-- Card Body -->
+             <div class="card-body">
+                 <p class="authorname"><%=blogs[i].userid.username%> &nbsp; &nbsp;  &nbsp; &nbsp; <%=blogs[i].created_at.toString().substring(4,15)%> </p>
+                 <h5 class="card-title tit"><%=blogs[i].title%></h5>
+                 <p class="card-text cont"><%=blogs[i].content.length>50?blogs[i].content.substring(0,49)+'....':blogs[i].content%></p>
+                 <a href="/<%=blogs[i]._id%>/read" class="btn btn-primary btn-read-more">Read More</a>
+             </div>
+            
+         </div>
+          <%}%>
+       
+    </div>
+    <%}else if(tab==="YourBlogs"){ %>
+
+        <div class="tab-pane fade show active" id="v-pills-YourBlogs" role="tabpanel">
+            <!-- <div style="width: 100%;">
+                <p><%=count%></p>
+            </div> -->
+                
+            <% for(let i=0;i< blogs.length;i++){ %>
+                <div class="card card1">
+                 <!-- Main Image -->
+                 <img src=<%=blogs[i].image%> class="card-img-top" alt="Main Image">
+                 
+                 <!-- Author Image -->
+                 <div class="author-image-container">
+                     <img src=<%=blogs[i].userid.image.url%> class="author-img" alt="Author Image">
+                 </div>
+                 
+                 <!-- Card Body -->
+                 <div class="card-body">
+                     <p class="authorname"><%=blogs[i].userid.username%> &nbsp; &nbsp;  &nbsp; &nbsp; <%=blogs[i].created_at.toString().substring(4,15)%> </p>
+                     <h5 class="card-title tit"><%=blogs[i].title%></h5>
+                     <p class="card-text cont"><%=blogs[i].content.length>50?blogs[i].content.substring(0,49)+'....':blogs[i].content%></p>
+                     <a href="/<%=blogs[i]._id%>/read" class="btn btn-primary btn-read-more">Read More</a>
+                 </div>
+                
+             </div>
+              <%}%>
+           
+        </div>
+        <%}else{ %>
+
+            <div class="tab-pane fade show active" id="v-pills-Following" role="tabpanel">
+                <!-- <div style="width: 100%;">
+                    <p><%=count%></p>
+                </div> -->
+                    
+                   <% for(let i=0;i <blogs.length ;i++){%>
+                    <div class="card card1">
+                        <!-- Main Image -->
+                        <img src=<%=blogs[i].image%> class="card-img-top" alt="Main Image">
+                        
+                        <!-- Author Image -->
+                        <div class="author-image-container">
+                            <img src=<%=blogs[i].userid.image.url%> class="author-img" alt="Author Image">
+                        </div>
+                        
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <p class="authorname"><%=blogs[i].userid.username%> &nbsp; &nbsp;  &nbsp; &nbsp; <%=blogs[i].created_at.toString().substring(4,15)%> </p>
+                            <h5 class="card-title tit"><%=blogs[i].title%></h5>
+                            <p class="card-text cont"><%=blogs[i].content.length>50?blogs[i].content.substring(0,49)+'....':blogs[i].content%></p>
+                            <a href="/<%=blogs[i]._id%>/read" class="btn btn-primary btn-read-more">Read More</a>
+                        </div>
+                       
+                    </div>
+                 <%}%>
+               
+            </div>
+    
+<%}%>
+        
+    
+
+    
+</div>
+<%}%>

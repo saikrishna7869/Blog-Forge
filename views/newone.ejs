@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Live Blog Preview Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .preview {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            min-height: 300px;
+        }
+
+        .preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .placeholder {
+            color: #888;
+            font-style: italic;
+        }
+
+        .non-placeholder {
+            color: #000;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("../views/includes/header.ejs") %>
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Form Section -->
+            <div class="col-md-6">
+                <h2 class="text-center mb-4" style="color: rgb(6, 165, 244);">Post a Blog</h2>
+                <form action="/upload" method="post"  class="needs-validation" novalidate onsubmit="return validateForm()">
+                    <!-- Blog Title -->
+                    <div class="mb-3">
+                        <label for="blogTitle" class="form-label">Title of Blog</label>
+                        <input type="text" class="form-control" id="blogTitle" name="title" placeholder="Enter blog title" oninput="updatePreview()" required>
+                    </div>
+
+                    <!-- Blog Image URL -->
+                    <div class="mb-3">
+                        <label for="blogImageUrl" class="form-label">Image URL</label>
+                        <input type="url" name="imageurl" class="form-control" id="blogImageUrl" placeholder="Enter image URL" oninput="updatePreview()" required>
+                    </div>
+
+                    <!-- Blog Category -->
+                    <div class="mb-3">
+                        <label for="blogCategory" class="form-label">Category</label>
+                        <select class="form-select" id="blogCategory" name="category" onchange="updatePreview()" required>
+                            <option value="" selected disabled>Select a category</option>
+                            <option value="Tech">Tech</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Business">Business</option>
+                            <option value="Food">Food</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+
+                    <!-- Blog Content -->
+                    <div class="mb-3">
+                        <label for="blogContent" class="form-label">Content</label>
+                        <textarea class="form-control" name="content" id="blogContent" rows="5" placeholder="Write your blog content here" oninput="updatePreview()" required></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Live Preview Section -->
+            <div class="col-md-6">
+                <h2 class="text-center mb-4" style="color: rgb(85, 0, 117);">Blog Preview</h2>
+                <div class="preview">
+                    <h3 id="previewTitle" class="non-placeholder">Blog Title will appear here...</h3>
+                    <img id="previewImage" src="https://via.placeholder.com/400x200?text=Image+Preview" alt="Preview Image">
+                    <h6 id="previewCategory" class="non-placeholder">Category will appear here...</h6>
+                    <p id="previewContent" class="non-placeholder">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blog content will appear here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2025 BlogSpace. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        
+        function validateForm() {
+            const form = document.querySelector('.needs-validation');
+
+            // Check if fields are valid
+            if (!form.checkValidity()) {
+                // Add Bootstrap validation styles
+                form.classList.add('was-validated');
+                return false; // Prevent form submission
+            }
+
+            // If all fields are valid, allow submission
+            
+            return true;
+        }
+
+        function updatePreview() {
+            // Get input values
+            const title = document.getElementById("blogTitle").value;
+            const imageUrl = document.getElementById("blogImageUrl").value;
+            const category = document.getElementById("blogCategory").value;
+            const content = document.getElementById("blogContent").value;
+
+            // Update title
+            const previewTitle = document.getElementById("previewTitle");
+            if (title) {
+                previewTitle.textContent = title;
+              
+            } else {
+                previewTitle.textContent = "Blog Title will appear here...";
+              
+            }
+
+            // Update image
+            const previewImage = document.getElementById("previewImage");
+            if (imageUrl) {
+                previewImage.src = imageUrl;
+                previewImage.style.display = "block";
+            } else {
+                previewImage.src = "https://via.placeholder.com/400x200?text=Image+Preview";
+            }
+
+            // Update category
+            const previewCategory = document.getElementById("previewCategory");
+            if (category) {
+                previewCategory.textContent = "Category:"+category;
+               
+            } else {
+                previewCategory.textContent = "Category will appear here...";
+              
+            }
+
+            // Update content
+            const previewContent = document.getElementById("previewContent");
+            if (content) {
+                previewContent.textContent = content;
+              
+            } else {
+                previewContent.textContent = "Blog content will appear here...";
+               
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

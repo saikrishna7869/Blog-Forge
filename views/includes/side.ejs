@@ -1,0 +1,11 @@
+
+<div class="side">
+    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a href="/home" class="nav-link <%= (tab === 'home') ? 'active' : '' %>" type="button" id="v-pills-home-tab" style="align-self: center; width: 100%;"><svg id="i-home" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-bottom: 5px;">
+            <path d="M12 20 L12 30 4 30 4 12 16 2 28 12 28 30 20 30 20 20 Z" />
+        </svg> Home</a>
+        <a href="/latest" class="nav-link <%= (tab === 'Latest') ? 'active' : '' %>" type="button" id="v-pills-Latest-tab" style="align-self: center; width: 100%;">Latest Blogs</a>
+        <a href="/yourBlogs" class="nav-link <%= (tab === 'YourBlogs') ? 'active' : '' %>" id="v-pills-yourBlogs-tab" style="align-self: center; width: 100%;">Your Blogs</a>
+        <a href="/Following" class="nav-link <%= (tab === 'Following') ? 'active' : '' %>" id="v-pills-Following-tab" style="align-self: center; width: 100%;">Following</a>
+    </div>
+</div>

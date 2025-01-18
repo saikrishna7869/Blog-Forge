@@ -1,0 +1,136 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "sidebar main main"
+        "footer footer footer";
+    grid-template-columns: 160px 1fr 1fr;
+    grid-template-rows: 100px auto 60px;
+    height: 100%;
+    background: linear-gradient(-45deg, #4158D0,#e281dc, #c38858, #ef5f5f,#87af76d8);
+    animation: gradientAnimation 12s ease-in-out;
+}
+@keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+.card1 {
+    height: 475px;
+    width: 560px;
+    margin: 20px;
+    border-radius: 4%;
+    position: relative;
+    overflow: hidden; /* Ensures the author image does not overflow the card boundaries */
+    transition: 0.5s;
+
+}
+.card1:hover{
+    transform: scale(1.01);
+}
+.card-img-top {
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+    border-top-left-radius: 4%;
+    border-top-right-radius: 4%;
+}
+
+.author-image-container {
+    position: absolute;
+    top: 245px; /* Adjust this to control vertical placement of the author image */
+    left: 11%; /* Center horizontally */
+    transform: translateX(-50%); /* Centers the author image */
+    z-index: 2; /* Ensures the author image appears above the main image */
+}
+
+.author-img {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%; /* Makes the image circular */
+    border: 3px solid white; /* Optional: Adds a border for better visibility */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+}
+
+.btn-read-more {
+    position: absolute;
+    bottom: 6px;
+    left: 10px;
+}
+
+.authorname{
+    position: absolute;
+    top: 335px;
+    left: 6%;    
+    font-size: 13px;
+    font-family: Apple Chancery, cursive;
+    font-style: italic;
+    font-weight: 600;
+    
+}
+.tit{
+    position: absolute;
+    top: 359px;
+    left: 2%;
+    font-size: 20px;
+    color: hwb(0 0% 3%);
+    font-family: cursive;
+}
+
+.cont{
+    position: absolute;
+    top: 385px;
+    left: 2%;
+    font-size: 16px;
+    
+}
+.head {
+    grid-area: header;
+}
+.side {
+    grid-area: sidebar;
+    margin-top: 40px;
+    margin-left: 20px;
+    width: 100%;
+    height: calc(100vh - 200px); /* Subtract header and footer height */
+    position: sticky; /* Keeps the sidebar fixed within its grid area */
+    top: 100px; /* Align with header height */
+    
+}
+.main {
+    grid-area: main;
+    padding: 10px;
+    margin-left: 10px;
+    height: max-content;
+     /* Adjust based on sidebar width if fixed */
+}
+.tab-pane {
+    display: none; /* Hide all content by default */
+    height: 100%; /* Ensure content fills the container */
+}
+.tab-pane.show {
+    display: flex; /* Use flex for row alignment */
+    flex-wrap: wrap; /* Enable wrapping for cards */
+    justify-content: space-around; /* Add spacing between cards */
+}
+.foot {
+    grid-area: footer;
+    height: 100%;
+    background-color: #ddd;
+    text-align: center;
+    padding: 10px;
+    visibility: hidden; /* Hidden by default */
+    opacity: 10; 
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
